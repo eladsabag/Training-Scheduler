@@ -1,0 +1,55 @@
+<%- include("partials/header") -%>
+
+<body>
+  <div class="middle-container">
+    <h1>שעות פתיחה</h1>
+    <p type="pg">ראשון ----------------------------------- 09:00-22:00</p>
+    <hr />
+    <p type="pg">שני ------------------------------------- 09:00-22:00</p>
+    <hr />
+    <p type="pg">שלישי ----------------------------------- 09:00-22:00</p>
+    <hr />
+    <p type="pg">רביעי ----------------------------------- 09:00-22:00</p>
+    <hr />
+    <p type="pg">חמישי ----------------------------------- 09:00-22:00</p>
+    <hr />
+    <p type="pg">שישי ------------------------------------ 09:00-14:00</p>
+    <hr />
+    <p type="pg">שבת -------------------------------------------- סגור</p>
+  </div>
+
+
+
+  <script>
+    $("#hours").addClass("active");
+
+    $(document).ready(function() {
+      var win = $(window).width();
+      if (win < 1000) {
+        $(".content").hide();
+        $("nav").removeClass("justify-content-center");
+        $("nav").addClass("justify-content-end");
+      } else {
+        $(".content").show();
+        $("nav").removeClass("justify-content-end");
+        $("nav").addClass("justify-content-center");
+      }
+    });
+
+    $(window).on("resize", function() {
+      var win = $(window).width();
+      if (win < 1000) {
+        $(".content").hide();
+        $("nav").removeClass("justify-content-center");
+        $("nav").addClass("justify-content-end");
+      } else {
+        $(".content").show();
+        $("nav").removeClass("justify-content-end");
+        $("nav").addClass("justify-content-center");
+      }
+    });
+  </script>
+</body>
+
+
+<%- include("partials/footer") -%>

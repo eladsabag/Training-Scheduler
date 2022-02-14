@@ -1,0 +1,61 @@
+<%- include("partials/header") -%>
+
+<body>
+  <div id="carouselExampleControls" class="carousel slide middle-container" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="/images/item1.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="/images/item2.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="/images/item3.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="/images/item4.jpg" class="d-block w-100" alt="...">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <script>
+    $("#gallery").addClass("active");
+
+    $(document).ready(function() {
+      var win = $(window).width();
+      if (win < 1000) {
+        $(".content").hide();
+        $("nav").removeClass("justify-content-center");
+        $("nav").addClass("justify-content-end");
+      } else {
+        $(".content").show();
+        $("nav").removeClass("justify-content-end");
+        $("nav").addClass("justify-content-center");
+      }
+    });
+
+    $(window).on("resize", function() {
+      var win = $(window).width();
+      if (win < 1000) {
+        $(".content").hide();
+        $("nav").removeClass("justify-content-center");
+        $("nav").addClass("justify-content-end");
+      } else {
+        $(".content").show();
+        $("nav").removeClass("justify-content-end");
+        $("nav").addClass("justify-content-center");
+      }
+    });
+  </script>
+</body>
+
+
+<%- include("partials/footer") -%>

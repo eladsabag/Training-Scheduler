@@ -1,0 +1,40 @@
+<%- include("partials/header") -%>
+
+<body>
+  <div class="middle-container">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3386.054794250184!2d34.809574285022144!3d31.93226968123531!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1502b68fe1a16427%3A0x38829fbd8bf5c43f!2z15LXldec15kg15PXntep16cgMTQsINeg16Eg16bXmdeV16DXlA!5e0!3m2!1siw!2sil!4v1644510870017!5m2!1siw!2sil" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+  </div>
+
+  <script>
+    $("#map").addClass("active");
+
+    $(document).ready(function() {
+      var win = $(window).width();
+      if (win < 1000) {
+        $(".content").hide();
+        $("nav").removeClass("justify-content-center");
+        $("nav").addClass("justify-content-end");
+      } else {
+        $(".content").show();
+        $("nav").removeClass("justify-content-end");
+        $("nav").addClass("justify-content-center");
+      }
+    });
+
+    $(window).on("resize", function() {
+      var win = $(window).width();
+      if (win < 1000) {
+        $(".content").hide();
+        $("nav").removeClass("justify-content-center");
+        $("nav").addClass("justify-content-end");
+      } else {
+        $(".content").show();
+        $("nav").removeClass("justify-content-end");
+        $("nav").addClass("justify-content-center");
+      }
+    });
+  </script>
+</body>
+
+
+<%- include("partials/footer") -%>

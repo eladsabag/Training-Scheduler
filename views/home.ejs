@@ -1,0 +1,124 @@
+<%- include("partials/header") -%>
+
+<body>
+  <div class="middle-container">
+    <h1>אימונים</h1>
+    <p type="pg">אימון רגיל אישי</p>
+    <hr />
+    <p type="pg">אימון רגיל זוגי</p>
+    <hr />
+    <p type="pg">אימון פילאטיס</p>
+    <hr />
+    <p type="pg">חבילת אימונים אישית</p>
+    <hr />
+    <p type="pg">חבילת אימונים זוגית</p>
+  </div>
+<!-- להעביר את כל הCSS -->
+  <div class="row">
+    <div class="col-lg-6">
+      <img class="or1" src="/images/or1.jpg" alt="or1-jpg">
+    </div>
+    <div class="col-lg-6" name="div-right">
+      <div>
+        <div class="details">
+          <h2>מאמן כושר אישי</h2>
+          <hr class="hr">
+          <div class="paragraphs">
+            <!-- <p>בעל 4 שנות ניסיון באימונים אישיים וקבוצתיים, ספורטאי לשעבר ומתמחה באימוני כוח, אימונים פונקציונליים כאשר מטרתי היא בראש ובראשונה שמירה על נפש בריאה בגוף בריא</p> -->
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique ac leo euismod vulputate. Sed eget diam vestibulum dui eleifend elementum. In hac habitasse platea dictumst. Duis tortor magna, dictum ut quam vel, accumsan pharetra augue. Sed quis justo lorem.</p>
+          </div>
+          <a class="btn2" href="#">פרטים נוספים</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6" name="div-left">
+      <div class="details">
+        <h2>מגוון אימונים</h2>
+        <hr class="hr">
+        <div class="paragraphs">
+          <p>:הסטודיו מספק מגוון רחב של אימונים אישיים וקבוצתיים</p>
+          <p>אימוני כוח ✔️</p>
+          <p>אימוני פילאטיס ✔️</p>
+          <p>אימונים פונקציונליים ✔️</p>
+          <p>Tabata אימוני ✔️</p>
+          <p>Hiit אימוני ✔️</p>
+        </div>
+        <a class="btn2" href="#">פרטים נוספים</a>
+      </div>
+    </div>
+    <div class="col-lg-6" style="padding-left: 0;">
+      <img class="or2" src="/images/or2.jpg" alt="or2-jpg">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6">
+      <img class="or3" src="/images/or3.jpg" alt="or3-jpg">
+    </div>
+    <div class="col-lg-6" name="div-right">
+      <h2>קצת עליי</h2>
+      <hr class="hr">
+      <div class="paragraphs">
+        <p>בעל תואר ראשון (B.Ed) בחינוך גופני ובוגר מגמת טיפוח יציבה וקידום בריאות מאת מכללת סמינר הקיבוצים
+בעל תעודת מדריך בפילאטיס, פיטנס סטודיו ואאוטדור, אימון רצועות ואתלטיקה קלה</p>
+      </div>
+      <a class="btn2" href="#">פרטים נוספים</a>
+    </div>
+  </div>
+
+  <script>
+    $("#home").addClass("active");
+
+    $(document).ready(function() {
+      var win = $(window).width();
+      if (win < 1000) {
+        $(".content").hide();
+        $("nav").removeClass("justify-content-center");
+        $("nav").addClass("justify-content-end");
+        $(".or1").hide();
+        $(".or2").hide();
+        $(".or3").hide();
+      } else {
+        $(".content").show();
+        $("nav").removeClass("justify-content-end");
+        $("nav").addClass("justify-content-center");
+        $(".or1").show();
+        $(".or2").show();
+        $(".or3").show();
+      }
+    });
+
+    $(window).on("resize", function() {
+      var win = $(window).width();
+      if (win < 1000) {
+        $(".content").hide();
+        $("nav").removeClass("justify-content-center");
+        $("nav").addClass("justify-content-end");
+        $(".or1").hide();
+        $(".or2").hide();
+        $(".or3").hide();
+      } else {
+        $(".content").show();
+        $("nav").removeClass("justify-content-end");
+        $("nav").addClass("justify-content-center");
+        $(".or1").show();
+        $(".or2").show();
+        $(".or3").show();
+      }
+    });
+
+
+
+    // $(window).on("scroll",function() {
+    //   $("nav").addClass("fixed-top");
+    // });
+  </script>
+
+
+</body>
+
+
+<%- include("partials/footer") -%>

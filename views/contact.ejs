@@ -1,0 +1,45 @@
+<%- include("partials/header") -%>
+
+<body>
+  <div class="middle-container">
+    <h1>צור קשר</h1>
+    <hr />
+    <p>:לבירורים ניתן לפנות ל</p>
+    <p type="pg">פלאפון, וואסטאפ: 0526790881</p>
+    <hr />
+    <p type="pg">orshimoni77@gmail.com :כתובת מייל</p>
+    <hr />
+  </div>
+
+  <script>
+    $("#contact").addClass("active");
+
+    $(document).ready(function() {
+      var win = $(window).width();
+      if (win < 1000) {
+        $(".content").hide();
+        $("nav").removeClass("justify-content-center");
+        $("nav").addClass("justify-content-end");
+      } else {
+        $(".content").show();
+        $("nav").removeClass("justify-content-end");
+        $("nav").addClass("justify-content-center");
+      }
+    });
+
+    $(window).on("resize", function() {
+      var win = $(window).width();
+      if (win < 1000) {
+        $(".content").hide();
+        $("nav").removeClass("justify-content-center");
+        $("nav").addClass("justify-content-end");
+      } else {
+        $(".content").show();
+        $("nav").removeClass("justify-content-end");
+        $("nav").addClass("justify-content-center");
+      }
+    });
+  </script>
+</body>
+
+<%- include("partials/footer") -%>
