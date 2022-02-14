@@ -1,0 +1,50 @@
+<%- include('partials/form-header') %>
+<div class="container mt-5 float-right cont">
+
+  <div class="row">
+    <div class="col-sm-8">
+      <h1>התחברות</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-body">
+
+          <!-- Makes POST request to /register route -->
+          <form action="/login" method="POST">
+            <div class="form-group">
+              <label for="email">אימייל</label>
+              <input type="email" class="form-control" name="username">
+            </div>
+            <div class="form-group">
+              <label for="password">סיסמה</label>
+              <input type="password" class="form-control" name="password">
+            </div>
+            <button type="submit" class="btn btn-dark">התחברות</button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card social-block">
+        <div class="card-body">
+          <a class="btn btn-block btn-social btn-google" href="/auth/google" role="button">
+            <i class="fab fa-google"></i>
+              Google התחברות עם
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<%- include('partials/form-header') %>

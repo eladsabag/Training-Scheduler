@@ -1,0 +1,28 @@
+
+body {
+  background-color: #E8ECEF;
+}
+
+img {
+  border-radius: 50%;
+}
+
+.centered {
+    padding-top: 150px;
+    text-align: center;
+}
+
+.cont {
+  text-align: right;
+}
+
+.btn-google {
+  text-align: right;
+}
+
+.training-text {
+  text-align: center;
+  font-size: 2rem;
+  color: #fff;
+  background-color: #6610f2;
+}
