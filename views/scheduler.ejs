@@ -2,21 +2,33 @@
 
 <div class="jumbotron text-center">
   <div class="container">
-    <img src="/images/oslogo.png" alt="os-logo">
-
-    <%userWithTraining.forEach(function(user){%>
-      <h1 class="display-3">האימונים שלי</h1>
-      <p><%= user.training %></p>
-    <%});%>
-
+    <img class="oslogo" src="/images/oslogo.png" alt="os-logo">
+    <h1 class="display-4">OS Fitness</h1>
     <hr>
-    <div class="container">
-      אימונים פנויים
+    <div class="middle-container">
+      <h1 class="display-6">האימונים שלי</h1>
+      <%if(!foundUser.$isEmpty('training')){%>
+          <p><%= foundUser.training %></p>
+        <%} else { %>
+          <img class="writing" src="/images/writing.png" alt="writing-png">
+          <p>...אין אימונים קרובים</p>
+        <%}%>
     </div>
-    <a class="btn btn-dark btn-lg" href="/submit" role="button">קבע אימון</a>
-    <a class="btn btn-light btn-lg" href="/logout" role="button">התנתק</a>
+    <hr>
+
+    <form action="/scheduler" method="POST">
+
+      <button type="submit" class="btn btn-dark btn-lg">קבע אימון</button>
+      <a class="btn btn-light btn-lg" href="/logout" role="button">התנתק</a>
+    </form>
 
   </div>
 </div>
+
+<script>
+  $(document).ready(function(){
+    $(".middle-container").fadeOut("fast").fadeIn("slow");
+  });
+</script>
 
 <%- include('partials/form-footer') %>

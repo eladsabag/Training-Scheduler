@@ -32,7 +32,10 @@ const userSchema = new mongoose.Schema ({
   email: String,
   password: String,
   googleId: String,
-  training: String
+  training: {
+    name: String,
+    date: Date
+  }
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -71,7 +74,7 @@ app.get("/", function(req,res) {
 
 // If already logged in direct to the scheduler page
 app.get("/training", function(req,res) {
-  if(req.isAuthenticated()) {
+  if(req.user) {
     res.redirect("/scheduler");
   } else {
     res.render("training");
@@ -98,12 +101,37 @@ app.get("/register", function(req,res){
 });
 
 app.get("/scheduler", function(req,res){
-  User.find({"email": req.body.username,"training": {$ne: null}}, function(err, foundUser){
+  if(req.user) {
+    User.findById(req.user.id, function(err, foundUser){
+      if(err) {
+        console.log(err);
+      } else {
+        if(foundUser) {
+          res.render("scheduler",{foundUser: foundUser});
+        }
+      }
+    });
+  } else {
+      res.redirect("/training");
+  }
+});
+
+app.post("/scheduler", function(req,res){
+  const submittedTraining = ["Gym",Date()];
+  console.log(submittedTraining);
+
+  console.log(req.user.id);
+
+  User.findById(req.user.id, function(err, foundUser){
     if(err) {
       console.log(err);
     } else {
       if(foundUser) {
-        res.render("scheduler",{userWithTraining: foundUser});
+        foundUser.training.name = "Gym";
+        foundUser.training.date = Date();
+        foundUser.save(function(){
+          res.redirect("/scheduler");
+        });
       }
     }
   });
@@ -132,10 +160,6 @@ app.post('/login',
   function(req, res) {
     res.redirect('/scheduler');
   });
-
-app.get("/scheduler", function(req,res) {
-  res.render("scheduler");
-});
 
 // Home page
 

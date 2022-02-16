@@ -3,8 +3,39 @@ body {
   background-color: #E8ECEF;
 }
 
-img {
+.oslogo {
   border-radius: 50%;
+}
+
+.writing {
+  width: 25%;
+}
+
+h1 {
+  font-family: 'Montseratt';
+}
+
+a {
+  padding: 5% 25%;
+  border: solid 1px;
+}
+
+.kind {
+  padding: 40px;
+  border: solid 1px #000;
+}
+
+.mark {
+  border: solid 2px #000;
+}
+
+.container {
+  width: 50%;
+}
+
+.middle-container {
+  padding: 10px;
+  background-image: -webkit-linear-gradient(65deg, #EFEFEF 50%, #f8f9fa 50%);
 }
 
 .centered {
