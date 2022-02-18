@@ -24,6 +24,13 @@
             </div>
             <button type="submit" class="btn btn-dark">הרשמה</button>
           </form>
+          <br>
+          <div class="alert alert-danger" role="alert" id="registerAlert">
+            <p style="text-align: center;">!אימייל תפוס או פרטים לא תקינים<span><br>.אנא נסה שוב</span></p>
+          </div>
+          <div class="alert alert-danger" role="alert" id="passwordAlert">
+            <p style="text-align: center;">!הסיסמה חייבת להיות בגודל 6 לפחות<span><br>.אנא נסה שוב</span></p>
+          </div>
 
         </div>
       </div>
@@ -46,5 +53,20 @@
   </div>
 
 </div>
+
+<script>
+    $('#registerAlert').hide();
+    $('#passwordAlert').hide();
+
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const param = urlParams.get('error');
+    if(param == "incorrect-details") {
+      $('#registerAlert').show();
+    } else if(param == "impossible-password") {
+      $('#passwordAlert').show();
+    }
+
+</script>
 
 <%- include('partials/form-header') %>

@@ -7,20 +7,18 @@
     <hr>
     <div class="middle-container">
       <h1 class="display-6">האימונים שלי</h1>
+      <!-- לסדר בהתאם לשינויים בבסיס נתונים -->
       <%if(!foundUser.$isEmpty('training')){%>
-          <p><%= foundUser.training %></p>
-        <%} else { %>
-          <img class="writing" src="/images/writing.png" alt="writing-png">
-          <p>...אין אימונים קרובים</p>
-        <%}%>
+      <p><%= foundUser.training %></p>
+      <%} else { %>
+      <img class="writing" src="/images/writing.png" alt="writing-png">
+      <p>...אין אימונים קרובים</p>
+      <%}%>
     </div>
     <hr>
 
-    <form action="/scheduler" method="POST">
-
-      <button type="submit" class="btn btn-dark btn-lg">קבע אימון</button>
-      <a class="btn btn-light btn-lg" href="/logout" role="button">התנתק</a>
-    </form>
+    <a class="btn btn-dark btn-lg" href="/scheduler/process">קבע אימון</a>
+    <a class="btn btn-light btn-lg" href="/logout" role="button">התנתק</a>
 
   </div>
 </div>

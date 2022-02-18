@@ -21,22 +21,26 @@ a {
 }
 
 .kind {
-  padding: 40px;
-  border: solid 1px #000;
-}
 
-.mark {
-  border: solid 2px #000;
 }
 
 .container {
-  width: 50%;
+  width: 75%;
 }
 
 .middle-container {
   padding: 10px;
   background-image: -webkit-linear-gradient(65deg, #EFEFEF 50%, #f8f9fa 50%);
 }
+
+.parent {
+  display: grid;
+  place-items: center;
+}
+
+/* .iForm {
+  width: auto;
+} */
 
 .centered {
     padding-top: 150px;
@@ -51,9 +55,9 @@ a {
   text-align: right;
 }
 
-.training-text {
+/* .training-text {
   text-align: center;
   font-size: 2rem;
   color: #fff;
   background-color: #6610f2;
-}
+} */

@@ -1,0 +1,122 @@
+<%- include('partials/form-header') %>
+
+<div class="container" style="text-align: center;">
+
+  <div class="row">
+    <hr style="margin-top: 120px;">
+  </div>
+
+
+  <section id="stage1" class="parent" style="padding-bottom: 100px; background-color: #fff; padding-right: 50px; padding-left: 50px; background-image: -webkit-linear-gradient(65deg, #EFEFEF 50%, #f8f9fa 50%);">
+    <h3 class="pt-4 pb-2">בחר סוג אימון</h3>
+    <hr>
+    <div class="w3-container">
+      <div class="row">
+        <div class="col-4">
+          <a class="kind">רגיל</a>
+        </div>
+
+        <div class="col-4">
+          <a class="kind">זוגי</a>
+        </div>
+
+        <div class="col-4">
+          <a class="kind">פילאטיס</a>
+        </div>
+      </div>
+      <br>
+      <hr>
+      <div class="w3-light-grey w3-round">
+        <div id="myBar" class="w3-container w3-black w3-right w3-small w3-round" style="width:1%">1%</div>
+      </div>
+      <br>
+      <button class="btn btn-dark btn-lg next1" style="color: #fff" onclick="move(1,33)">הבא</button>
+      <a class="btn btn-light btn-lg back1" href="/scheduler">חזור</a>
+    </div>
+  </section>
+
+  <section id="stage2" class="parent" style="padding-bottom: 50px; background-color: #fff; padding-right: 50px; padding-left: 50px; background-image: -webkit-linear-gradient(65deg, #EFEFEF 50%, #f8f9fa 50%);">
+    <h3 class="pt-4 pb-2">בחר תאריך ושעה</h3>
+    <form>
+      <div class="row form-group">
+        <div class="col-sm-4">
+          <div class="input-group date" id="datepicker">
+            <span class="input-group-append">
+              <input type="text" class="form-control iForm" value="" name="date">
+              <span class="input-group-text bg-white">
+                <i class="fa fa-calendar"></i>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="w3-container" style="width: 90%">
+      <div class="w3-light-grey w3-round">
+        <div id="myBar" class="w3-container w3-black w3-right w3-small w3-round" style="width:33%">33%</div>
+      </div>
+      <br>
+      <button class="btn btn-dark btn-lg next2" style="color: #fff" onclick="move(33,66)">הבא</button>
+      <a class="btn btn-light btn-lg back2" onclick="move(1,33)">חזור</a>
+    </div>
+  </section>
+</div>
+
+
+<script>
+  $(document).ready(function() {
+    $(".next1").prop("disabled", true);
+    $("#stage2").hide();
+  });
+
+  $(function() {
+    $('#datepicker').datepicker({
+      format: 'dd/mm/yyyy',
+      startDate: '0d',
+      endDate: '+1m',
+      language: 'he'
+    });
+    $("#datepicker").on("change", function() {
+      var selected = $("input").val();
+      console.log(selected);
+    });
+    $(".iForm").attr("value", new Date().toLocaleDateString('en-GB'));
+  });
+
+  $(".next1").click(function() {
+    setTimeout(() => {
+      $("#stage1").hide();
+      $("#stage2").show();
+      $(".next2").prop("disabled", true);
+    }, 800);
+  });
+
+  $(".back2").click(function() {
+    $("#stage2").hide();
+    $("#stage1").show();
+    move(1,33);
+  });
+
+
+  function move(start, end) {
+    var elem = document.getElementById("myBar");
+    var width = start;
+    var id = setInterval(frame, 10);
+
+    function frame() {
+      if (width >= end) {
+        clearInterval(id);
+        if (width >= 100) {
+          elem.innerHTML = "! קבענו";
+        }
+      } else {
+        width++;
+        elem.style.width = width + '%';
+        elem.innerHTML = width * 1 + '%';
+      }
+    }
+  }
+</script>
+
+<%- include('partials/form-footer') %>

@@ -24,7 +24,10 @@
             </div>
             <button type="submit" class="btn btn-dark">התחברות</button>
           </form>
-
+          <br>
+          <div class="alert alert-danger" role="alert" id="loginAlert">
+            <p style="text-align: center;">!אימייל או סיסמה שגויים, אנא נסה שוב</p>
+          </div>
         </div>
       </div>
     </div>
@@ -45,6 +48,14 @@
     </div>
   </div>
 
-</div>
+
+<script>
+    $('#loginAlert').hide();
+    const urlParams = new URLSearchParams(window.location.search);
+    const param = urlParams.get('error');
+    if(param == "incorrect-details") {
+        $('#loginAlert').show();
+    }
+</script>
 
 <%- include('partials/form-header') %>

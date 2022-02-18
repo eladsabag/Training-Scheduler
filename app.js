@@ -10,6 +10,7 @@ const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require("mongoose-findorcreate");
+const date = require(__dirname + "/date.js");
 
 const app = express();
 
@@ -28,20 +29,72 @@ app.use(passport.session());
 
 mongoose.connect("mongodb://localhost:27017/osfitnessDB");
 
+const scheduleSchema = new mongoose.Schema ({
+  date: String,
+  day: Number,
+  hours: [{
+    hour: String,
+    kind: String,
+    occupied: Boolean
+  }]
+});
+
 const userSchema = new mongoose.Schema ({
   email: String,
   password: String,
   googleId: String,
-  training: {
-    name: String,
-    date: Date
-  }
+  trainings: [scheduleSchema]
 });
 
 userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
 
+const Schedule = new mongoose.model("Schedule", scheduleSchema);
 const User = new mongoose.model("User", userSchema);
+
+// Set initial 30 dates
+// const dates = date.setInitialDates(30,0);
+// for(var i = 0 ; i < 30; i++) {
+//   const schedule =  new Schedule({
+//     date: dates.dates[i],
+//     day: dates.days[i],
+//     hours: dates.hours[i]
+//   });
+//   schedule.save();
+//
+// }
+
+// Remove the old dates and add new dates
+Schedule.find({}, function(err, foundDates) {
+  var isChecked = false;
+  var counter = 30;
+  if(err) {
+    console.log(err);
+  } else {
+    if(foundDates) {
+      foundDates.forEach(function(foundDate){
+        if(foundDate.date !== date.getDate() && isChecked === false) {
+          // if there is no match then delete
+          Schedule.findOneAndDelete({},function(err){
+            if(!err) {
+              console.log("Successfully deleted old date");
+            }
+          });
+          const dateToInsert = date.setInitialDates(1,counter++);
+          const schedule = new Schedule({
+            date: dateToInsert.dates[0],
+            day: dateToInsert.days[0],
+            hours: dateToInsert.hours[0]
+          });
+          schedule.save();
+          console.log("Successfully added new date");
+        } else {
+          isChecked = true;
+        }
+      });
+    }
+  }
+});
 
 passport.use(User.createStrategy());
 
@@ -73,11 +126,11 @@ app.get("/", function(req,res) {
 });
 
 // If already logged in direct to the scheduler page
-app.get("/training", function(req,res) {
+app.get("/authentication", function(req,res) {
   if(req.user) {
     res.redirect("/scheduler");
   } else {
-    res.render("training");
+    res.render("authentication");
   }
 });
 
@@ -112,26 +165,48 @@ app.get("/scheduler", function(req,res){
       }
     });
   } else {
-      res.redirect("/training");
+      res.redirect("/authentication");
   }
 });
 
-app.post("/scheduler", function(req,res){
-  const submittedTraining = ["Gym",Date()];
-  console.log(submittedTraining);
+// POST - scheduler/progress
+// app.post("/scheduler", function(req,res){
+//   const submittedTraining = ["Gym",Date()];
+//   console.log(submittedTraining);
+//
+//   console.log(req.user.id);
+//
+//   User.findById(req.user.id, function(err, foundUser){
+//     if(err) {
+//       console.log(err);
+//     } else {
+//       if(foundUser) {
+//         foundUser.training.name = "Gym";
+//         foundUser.training.date = Date();
+//         foundUser.save(function(){
+//           res.redirect("/scheduler");
+//         });
+//       }
+//     }
+//   });
+// });
 
-  console.log(req.user.id);
+app.get("/scheduler/process", function(req,res){
+  if(req.user) {
+    res.render("process");
+  } else {
+    res.redirect("/authentication");
+  }
+});
 
-  User.findById(req.user.id, function(err, foundUser){
+app.post("/scheduler/process",function(req,res){
+  const submittedDate = req.body.date;
+  Schedule.findOne({date: submittedDate},function(err,foundDate){
     if(err) {
       console.log(err);
     } else {
-      if(foundUser) {
-        foundUser.training.name = "Gym";
-        foundUser.training.date = Date();
-        foundUser.save(function(){
-          res.redirect("/scheduler");
-        });
+      if(foundDate) {
+        res.render("scheduler/process", {foundDate: foundDate});
       }
     }
   });
@@ -143,23 +218,39 @@ app.get("/logout", function(req,res) {
 });
 
 app.post("/register", function(req,res){
-  User.register({username: req.body.username}, req.body.password, function(err, user) {
-    if(err) {
-      console.log(err);
-      res.redirect("/register");
-    } else {
-      passport.authenticate("local")(req,res, function(){
-        res.redirect("/scheduler");
-      });
-    }
-  });
+  if(req.body.password.length > 0 && req.body.password.length < 6) {
+    res.redirect('/register?error=' + encodeURIComponent('impossible-password'));
+  } else {
+    User.register({username: req.body.username}, req.body.password, function(err, user) {
+      if(err) {
+        console.log(err);
+        res.redirect('/register?error=' + encodeURIComponent('incorrect-details'));
+      } else {
+        passport.authenticate("local")(req,res, function(){
+          res.redirect("/scheduler");
+        });
+      }
+    });
+  }
 });
 
 app.post('/login',
-  passport.authenticate('local', { failureRedirect: '/login' }),
+  passport.authenticate('local', { failureRedirect: '/login?error=' + encodeURIComponent('incorrect-details') }),
   function(req, res) {
     res.redirect('/scheduler');
   });
+
+// app.get("/scheduler/process/submit", function(req,res){
+//   if(req.isAuthenticated()){
+//     res.render("submit");
+//   } else {
+//     res.redirect("/login");
+//   }
+// });
+//
+// app.post("/scheduler/process/submit", function(req,res){
+//
+// });
 
 // Home page
 
