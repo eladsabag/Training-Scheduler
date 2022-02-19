@@ -207,6 +207,10 @@ p[type="pg"] {
   p[type="pg"] {
     font-size: 0.6rem;
   }
+
+  .addressP {
+    color: #6610f2;
+  }
 }
 
 .paragraphs {

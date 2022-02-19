@@ -64,38 +64,6 @@ const User = new mongoose.model("User", userSchema);
 //
 // }
 
-// Remove the old dates and add new dates
-Schedule.find({}, function(err, foundDates) {
-  var isChecked = false;
-  var counter = 30;
-  if(err) {
-    console.log(err);
-  } else {
-    if(foundDates) {
-      foundDates.forEach(function(foundDate){
-        if(foundDate.date !== date.getDate() && isChecked === false) {
-          // if there is no match then delete
-          Schedule.findOneAndDelete({},function(err){
-            if(!err) {
-              console.log("Successfully deleted old date");
-            }
-          });
-          const dateToInsert = date.setInitialDates(1,counter++);
-          const schedule = new Schedule({
-            date: dateToInsert.dates[0],
-            day: dateToInsert.days[0],
-            hours: dateToInsert.hours[0]
-          });
-          schedule.save();
-          console.log("Successfully added new date");
-        } else {
-          isChecked = true;
-        }
-      });
-    }
-  }
-});
-
 passport.use(User.createStrategy());
 
 passport.serializeUser(function(user,done) {
@@ -122,6 +90,40 @@ passport.use(new GoogleStrategy({
 ));
 
 app.get("/", function(req,res) {
+  // Remove the old dates and add new dates when page loads
+  Schedule.find({}, function(err, foundDates) {
+    var isChecked = false;
+    var counter = 29;
+    if(err) {
+      console.log(err);
+    } else {
+      if(foundDates) {
+        foundDates.forEach(function(foundDate){
+          if(foundDate.date !== date.getDate() && isChecked === false) {
+            // if there is no match then delete
+            Schedule.findOneAndDelete({},function(err){
+              if(!err) {
+                console.log("Successfully deleted old date");
+              }
+            });
+            const dateToInsert = date.setInitialDates(1,counter++);
+            const schedule = new Schedule({
+              date: dateToInsert.dates[0],
+              day: dateToInsert.days[0],
+              hours: dateToInsert.hours[0]
+            });
+            schedule.save(function(err){
+              if(!err) {
+                console.log("Successfully added new date");
+              }
+            });
+          } else {
+            isChecked = true;
+          }
+        });
+      }
+    }
+  });
   res.render("home");
 });
 
