@@ -1,5 +1,5 @@
 <%- include('partials/form-header') %>
-<div class="container mt-5 float-right cont">
+<div class="container mt-5 cont">
 
   <div class="row">
     <div class="col-sm-8">
@@ -56,6 +56,24 @@
     if(param == "incorrect-details") {
         $('#loginAlert').show();
     }
+
+    $(document).ready(function() {
+      var win = $(window).width();
+      if (win < 720) {
+        $(".cont").removeClass("float-right");
+      } else {
+        $(".cont").addClass("float-right");
+      }
+    });
+
+    $(window).on("resize", function() {
+      var win = $(window).width();
+      if (win < 720) {
+        $(".cont").removeClass("float-right");
+      } else {
+        $(".cont").addClass("float-right");
+      }
+    });
 </script>
 
 <%- include('partials/form-header') %>

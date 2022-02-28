@@ -1,15 +1,15 @@
 <%- include('partials/form-header') %>
-<nav class="nav justify-content-center navbar navbar-expand navbar-dark bg-dark">
+<nav class="nav justify-content-center navbar navbar-expand navbar-dark" style="background-color: #6610f2!important;">
   <div>
     <div id="navbarSupportedContent">
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/">דף הבית</a>
-          <a class="dropdown-item" href="/logout">התנתק</a>
-        </div>
-      </li>
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/">דף הבית</a>
+            <a class="dropdown-item" href="/logout">התנתק</a>
+          </div>
+        </li>
         <li class="nav-item"><a id="process" class="nav-link" href="/scheduler/process">קביעת אימון</a></li>
         <li class="nav-item"><a id="scheduler" class="nav-link" href="/scheduler">האימונים שלי</a></li>
       </ul>
@@ -17,82 +17,124 @@
   </div>
 </nav>
 
-<div class="container" style="text-align: center;">
+<form action="/scheduler/process" method="post">
 
-  <div class="row">
-    <hr style="margin-top: 120px;">
-  </div>
+  <div class="container" style="text-align: center;">
 
+    <div class="row">
+      <hr style="margin-top: 120px;">
+    </div>
 
-  <section id="stage1" class="parent" style="padding-bottom: 100px; background-color: #fff; padding-right: 50px; padding-left: 50px; background-image: -webkit-linear-gradient(65deg, #EFEFEF 50%, #f8f9fa 50%);">
-    <h3 class="pt-4 pb-2">בחר סוג אימון</h3>
-    <hr>
-    <div class="w3-container">
+    <section id="stage1" class="parent" style="padding-bottom: 25px; background-color: #fff; padding-right: 50px; padding-left: 50px; background-image: -webkit-linear-gradient(65deg, #EFEFEF 50%, #f8f9fa 50%);">
+      <h3 class="pt-4 pb-2">בחר סוג אימון</h3>
+      <hr style="padding-bottom: 25px;">
       <div class="row">
-        <div class="col-4">
-          <a class="kind">פילאטיס</a>
+        <div class="col-lg-4 col-md-4 col-sm-12" style="padding-bottom: 12%;">
+          <a id="pil" class="training-text" style="padding: 10px 20px; color: #fff;" onclick="chooseKind(1)">פילאטיס</a>
         </div>
 
-        <div class="col-4">
-          <a class="kind">זוגי</a>
+        <div class="col-lg-4 col-md-4 col-sm-12" style="padding-bottom: 12%;">
+          <a id="two" class="training-text" style="padding: 10px 40px; color: #fff;" onclick="chooseKind(2)">זוגי</a>
         </div>
 
-        <div class="col-4">
-          <a class="kind">רגיל</a>
+        <div class="col-lg-4 col-md-4 col-sm-12">
+          <a id="reg" class="training-text" style="padding: 10px 35px; color: #fff;" onclick="chooseKind(3)">רגיל</a>
         </div>
       </div>
+      <input id="kind" type="hidden" name="kind" value="">
       <br>
       <hr>
-      <div class="w3-light-grey w3-round">
-        <div id="myBar" class="w3-container w3-black w3-right w3-small w3-round" style="width:1%">1%</div>
-      </div>
-      <br>
-      <button class="btn btn-dark btn-lg next1" style="color: #fff" onclick="move(1,33)">הבא</button>
-      <a class="btn btn-light btn-lg back1" href="/scheduler">חזור</a>
-    </div>
-  </section>
+      <p>
+        <button class="btn process-btn btn-lg next1" type="button" style="color: #fff">הבא</button>
+        <a class=" btn btn-light btn-lg back1" href="/scheduler">חזור</a>
+      </p>
+        <br><br>
+        <h5>1/3</h5>
+    </section>
 
-  <section id="stage2" class="parent" style="padding-bottom: 50px; background-color: #fff; padding-right: 50px; padding-left: 50px; background-image: -webkit-linear-gradient(65deg, #EFEFEF 50%, #f8f9fa 50%);">
-    <h3 class="pt-4 pb-2">בחר תאריך ושעה</h3>
-    <form>
-      <div class="row form-group">
-        <div class="col-sm-4">
-          <div class="input-group date" id="datepicker">
-            <span class="input-group-append">
-              <input type="text" class="form-control iForm" value="" name="date">
-              <span class="input-group-text bg-white">
-                <i class="fa fa-calendar"></i>
+    <section id="stage2" class="parent" style="padding-bottom: 25px; background-color: #fff; padding-right: 50px; padding-left: 50px; background-image: -webkit-linear-gradient(65deg, #EFEFEF 50%, #f8f9fa 50%);">
+      <h3 class="pt-4 pb-2">בחר תאריך ושעה</h3>
+      <hr style="padding-bottom: 25px;">
+      <form>
+        <div class="row form-group">
+          <div class="">
+            <div class="input-group date" id="datepicker">
+              <span class="input-group-append">
+                <input id="date" type="text" class="form-control iForm" autocomplete="off" value="" name="date">
+                <span class="input-group-text bg-white">
+                  <i class="fa fa-calendar"></i>
+                </span>
               </span>
-            </span>
+            </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
 
-    <div class="w3-container" style="width: 90%">
-      <div class="w3-light-grey w3-round">
-        <div id="myBar" class="w3-container w3-black w3-right w3-small w3-round" style="width:33%">33%</div>
+      <div class="row">
+        <% foundSchedules.forEach(function(foundSchedule) {%>
+        <%if(foundSchedule.date===new Date().toLocaleDateString("en-GB")) {%>
+        <%foundSchedule.hours.forEach(function(foundHour){%>
+        <div class="col-4">
+          <a class="btn training-text btn-lg" style="color: #fff" onclick="chooseHour('<%=foundHour.hour%>')"><%=foundHour.hour%></a>
+          <br><br>
+        </div>
+        <%});%>
+        <%}%>
+
+        <%});%>
+        </div>
+        <input id="hour" type="hidden" name="hour" value="">
+        <br>
+        <p>
+          <button class="btn process-btn btn-lg next2" type="button" onclick="showDetails()" style="color: #fff">הבא</button>
+          <a class="btn btn-light btn-lg back2">חזור</a>
+        </p>
+        <br><br>
+        <h5>2/3</h5>
+    </section>
+
+    <section id="stage3" class="parent" style="padding-bottom: 25px; background-color: #fff; padding-right: 50px; padding-left: 50px; background-image: -webkit-linear-gradient(65deg, #EFEFEF 50%, #f8f9fa 50%);">
+      <h3 class="pt-4 pb-2">אישור פרטים</h3>
+      <hr style="padding-bottom: 25px;">
+      <div class="row">
+        <div class="col-12">
+          <p id="finalKind" class=""></p>
+        </div>
+        <hr>
+        <div class="col-12">
+          <p id="finalDate" class=""></p>
+        </div>
+        <hr>
+        <div class="col-12">
+          <p id="finalHour" class=""></p>
+        </div>
       </div>
       <br>
-      <button class="btn btn-dark btn-lg next2" style="color: #fff" onclick="move(33,66)">הבא</button>
-      <a class="btn btn-light btn-lg back2" onclick="move(1,33)">חזור</a>
-    </div>
-  </section>
-</div>
+      <p>
+        <button class="btn process-btn btn-lg next3" style="color: #fff">אישור</button>
+        <a class="btn btn-light btn-lg back3">חזור</a>
+      </p>
+      <br><br>
+      <h5>3/3</h5>
+    </section>
+  </div>
+</form>
 
 
 <script>
   $(document).ready(function() {
+    $("#stage2").hide();
+    $("#stage3").hide();
     $("#process").addClass("active");
     $(".next1").prop("disabled", true);
-    $("#stage2").hide();
+    $(".next2").prop("disabled", true);
   });
 
   $(function() {
     $('#datepicker').datepicker({
       format: 'dd/mm/yyyy',
       startDate: '0d',
-      endDate: '+1m',
+      endDate: '+30d',
       language: 'he'
     });
     $("#datepicker").on("change", function() {
@@ -106,34 +148,73 @@
     setTimeout(() => {
       $("#stage1").hide();
       $("#stage2").show();
-      $(".next2").prop("disabled", true);
+    }, 800);
+  });
+
+  $(".next2").click(function() {
+    setTimeout(() => {
+      $("#stage2").hide();
+      $("#stage3").show();
+      $(".next3").prop("disabled", true);
     }, 800);
   });
 
   $(".back2").click(function() {
     $("#stage2").hide();
     $("#stage1").show();
-    move(1,33);
   });
 
+  $(".back3").click(function() {
+    $("#stage1").hide();
+    $("#stage3").hide();
+    $("#stage2").show();
+  });
 
-  function move(start, end) {
-    var elem = document.getElementById("myBar");
-    var width = start;
-    var id = setInterval(frame, 10);
-
-    function frame() {
-      if (width >= end) {
-        clearInterval(id);
-        if (width >= 100) {
-          elem.innerHTML = "! קבענו";
-        }
-      } else {
-        width++;
-        elem.style.width = width + '%';
-        elem.innerHTML = width * 1 + '%';
-      }
+  function chooseKind(num) {
+    if($(".next1").prop("disabled")) {
+      $(".next1").prop("disabled", false);
     }
+    if (num === 1) {
+      $("#pil").css("border", "solid 4px #112fff");
+      $("#pil").css("font-weight", "bolder");
+      $("#two").css("border", "solid 1px #112fff");
+      $("#two").css("font-weight", "200");
+      $("#reg").css("border", "solid 1px #112fff");
+      $("#reg").css("font-weight", "200");
+      $("#kind").attr("value", "פילאטיס");
+    } else if (num === 2) {
+      $("#pil").css("border", "solid 1px #112fff");
+      $("#pil").css("font-weight", "200");
+      $("#two").css("border", "solid 4px #112fff");
+      $("#two").css("font-weight", "bolder");
+      $("#reg").css("border", "solid 1px #112fff");
+      $("#reg").css("font-weight", "200");
+      $("#kind").attr("value", "זוגי");
+    } else {
+      $("#pil").css("border", "solid 1px #112fff");
+      $("#pil").css("font-weight", "200");
+      $("#two").css("border", "solid 1px #112fff");
+      $("#two").css("font-weight", "200");
+      $("#reg").css("border", "solid 4px #112fff");
+      $("#reg").css("font-weight", "bolder");
+      $("#kind").attr("value", "רגיל");
+    }
+  }
+
+  function chooseHour(hour) {
+    if($(".next2").prop("disabled")) {
+      $(".next2").prop("disabled", false);
+    }
+    $("#hour").attr("value", "" + hour);
+  };
+
+  function showDetails() {
+    var finalKind = $("#kind").val();
+    var finalDate = $("#date").val();
+    var finalHour = $("#hour").val();
+    $("#finalKind").html(" סוג האימון: " + finalKind);
+    $("#finalDate").html(" תאריך: " + finalDate);
+    $("#finalHour").html(" שעה: " + finalHour);
   }
 </script>
 

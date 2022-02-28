@@ -2,9 +2,7 @@
 
 exports.getDate = function() {
   const today = new Date();
-  let tommorow = new Date();
-  tommorow.setDate(today.getDate());
-  return tommorow.toLocaleDateString("en-GB");
+  return today.toLocaleDateString("en-GB");
 };
 
 
@@ -30,7 +28,7 @@ function setDayTrainings(day) {
       hours = [{hour: "9:00",kind: "רגיל",occupied: false},{hour: "10:00",kind: "רגיל",occupied: false},{hour: "11:00",kind: "רגיל",occupied: false},{hour: "12:00",kind: "רגיל",occupied: false}];
     break;
     case 1:
-      hours = [{hour: "9:00",kind: "רגיל",occupied: false},{hour: "10:00",kind: "רגיל",occupied: false},{hour: "11:00",kind: "רגיל",occupied: false},{hour: "12:00",kind: "רגיל",occupied: false}];
+      hours = [{hour: "11:00",kind: "רגיל",occupied: false},{hour: "12:00",kind: "רגיל",occupied: false},{hour: "13:00",kind: "רגיל",occupied: false},{hour: "14:00",kind: "רגיל",occupied: false}];
     break;
     case 2:
       hours = [{hour: "9:00",kind: "רגיל",occupied: false},{hour: "10:00",kind: "רגיל",occupied: false},{hour: "11:00",kind: "רגיל",occupied: false},{hour: "12:00",kind: "רגיל",occupied: false}];

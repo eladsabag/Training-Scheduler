@@ -6,17 +6,16 @@
         <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/">דף הבית</a>
-          <a class="dropdown-item" href="/logout">התנתק</a>
+          <a class="dropdown-item" style="text-align: center" href="/">דף הבית</a>
+          <a class="dropdown-item" style="text-align: center" href="/logout">התנתק</a>
         </div>
-      </li>
+        </li>
         <li class="nav-item"><a id="process" class="nav-link" href="/scheduler/process">קביעת אימון</a></li>
         <li class="nav-item"><a id="scheduler" class="nav-link" href="/scheduler">האימונים שלי</a></li>
       </ul>
     </div>
   </div>
 </nav>
-
 <div class="jumbotron text-center">
   <div class="container">
     <img class="oslogo" src="/images/oslogo.png" alt="os-logo">
@@ -29,13 +28,15 @@
       <p><%= foundUser.training %></p>
       <%} else { %>
       <img class="writing" src="/images/writing.png" alt="writing-png">
-      <p>...אין אימונים קרובים</p>
+      <br><br>
+      <p>...שלום <%=givenName%> <%=familyName%>, אין אימונים קרובים</p>
       <%}%>
     </div>
     <hr>
 
-    <a class="btn btn-dark btn-lg" href="/scheduler/process">קבע אימון</a>
-    <a class="btn btn-light btn-lg" href="/logout" role="button">התנתק</a>
+    <a class="btn btn-dark btn-lg" href="/scheduler/process">אימון חדש</a>
+    <!-- TODO -->
+    <a class="btn btn-light btn-lg" href="#" role="button">ביטול אימון</a>
 
   </div>
 </div>

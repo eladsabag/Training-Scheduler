@@ -15,6 +15,14 @@
           <!-- Makes POST request to /register route -->
           <form action="/register" method="POST">
             <div class="form-group">
+              <label for="givenName">שם פרטי</label>
+              <input type="givenName" class="form-control" name="givenName" style="direction: rtl">
+            </div>
+            <div class="form-group">
+              <label for="familyName">שם משפחה</label>
+              <input type="familyName" class="form-control" name="familyName" style="direction: rtl">
+            </div>
+            <div class="form-group">
               <label for="email">אימייל</label>
               <input type="email" class="form-control" name="username">
             </div>
@@ -66,6 +74,24 @@
     } else if(param == "impossible-password") {
       $('#passwordAlert').show();
     }
+
+    $(document).ready(function() {
+      var win = $(window).width();
+      if (win < 720) {
+        $(".cont").removeClass("float-right");
+      } else {
+        $(".cont").addClass("float-right");
+      }
+    });
+
+    $(window).on("resize", function() {
+      var win = $(window).width();
+      if (win < 720) {
+        $(".cont").removeClass("float-right");
+      } else {
+        $(".cont").addClass("float-right");
+      }
+    });
 
 </script>
 

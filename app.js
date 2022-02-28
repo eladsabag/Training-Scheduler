@@ -40,6 +40,8 @@ const scheduleSchema = new mongoose.Schema ({
 });
 
 const userSchema = new mongoose.Schema ({
+  givenName: String,
+  familyName: String,
   email: String,
   password: String,
   googleId: String,
@@ -83,47 +85,13 @@ passport.use(new GoogleStrategy({
   },
   function(accessToken, refreshToken, profile, cb) {
     console.log(profile);
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
+    User.findOrCreate({ googleId: profile.id, givenName: profile.name.givenName, familyName: profile.name.familyName }, function (err, user) {
       return cb(err, user);
     });
   }
 ));
 
 app.get("/", function(req,res) {
-  // Remove the old dates and add new dates when page loads
-  Schedule.find({}, function(err, foundDates) {
-    var isChecked = false;
-    var counter = 29;
-    if(err) {
-      console.log(err);
-    } else {
-      if(foundDates) {
-        foundDates.forEach(function(foundDate){
-          if(foundDate.date !== date.getDate() && isChecked === false) {
-            // if there is no match then delete
-            Schedule.findOneAndDelete({},function(err){
-              if(!err) {
-                console.log("Successfully deleted old date");
-              }
-            });
-            const dateToInsert = date.setInitialDates(1,counter++);
-            const schedule = new Schedule({
-              date: dateToInsert.dates[0],
-              day: dateToInsert.days[0],
-              hours: dateToInsert.hours[0]
-            });
-            schedule.save(function(err){
-              if(!err) {
-                console.log("Successfully added new date");
-              }
-            });
-          } else {
-            isChecked = true;
-          }
-        });
-      }
-    }
-  });
   res.render("home");
 });
 
@@ -151,18 +119,59 @@ app.get("/login", function(req,res){
   res.render("login");
 });
 
+app.post('/login',
+  passport.authenticate('local', { failureRedirect: '/login?error=' + encodeURIComponent('incorrect-details') }),
+  function(req, res) {
+    res.redirect('/scheduler');
+  });
+
 app.get("/register", function(req,res){
   res.render("register");
 });
 
 app.get("/scheduler", function(req,res){
+  // Remove the old dates and add new dates when page loads
+  // Only happens once someone entering the page and update one time
+  Schedule.find({}, function(err, foundDates) {
+    var isChecked = false;
+    var counter = 0;
+    if(err) {
+      console.log(err);
+    } else {
+      if(foundDates) {
+        foundDates.forEach(function(foundDate){
+          if(foundDate.date !== date.getDate() && isChecked === false) {
+            // if there is no match then delete
+            Schedule.findOneAndDelete({},function(err){
+              if(!err) {
+                console.log("Successfully deleted old date");
+              }
+            });
+            counter++;
+          } else {
+            isChecked = true;
+          }
+        });
+        const dateToInsert = date.setInitialDates(counter,30-counter);
+        for(var i = 0 ; i < counter; i++){
+          const schedule = new Schedule({
+            date: dateToInsert.dates[i],
+            day: dateToInsert.days[i],
+            hours: dateToInsert.hours[i]
+          });
+          schedule.save();
+        }
+      }
+    }
+  });
+
   if(req.user) {
     User.findById(req.user.id, function(err, foundUser){
       if(err) {
         console.log(err);
       } else {
         if(foundUser) {
-          res.render("scheduler",{foundUser: foundUser});
+          res.render("scheduler",{foundUser: foundUser, givenName: foundUser.givenName, familyName: foundUser.familyName});
         }
       }
     });
@@ -171,47 +180,24 @@ app.get("/scheduler", function(req,res){
   }
 });
 
-// POST - scheduler/progress
-// app.post("/scheduler", function(req,res){
-//   const submittedTraining = ["Gym",Date()];
-//   console.log(submittedTraining);
-//
-//   console.log(req.user.id);
-//
-//   User.findById(req.user.id, function(err, foundUser){
-//     if(err) {
-//       console.log(err);
-//     } else {
-//       if(foundUser) {
-//         foundUser.training.name = "Gym";
-//         foundUser.training.date = Date();
-//         foundUser.save(function(){
-//           res.redirect("/scheduler");
-//         });
-//       }
-//     }
-//   });
-// });
-
 app.get("/scheduler/process", function(req,res){
   if(req.user) {
-    res.render("process");
+    Schedule.find({},function(err,foundSchedules) {
+      if(!err) {
+        res.render("process",{foundSchedules: foundSchedules});
+      } else {
+        res.redirect("/scheduler");
+      }
+    });
   } else {
     res.redirect("/authentication");
   }
 });
 
 app.post("/scheduler/process",function(req,res){
-  const submittedDate = req.body.date;
-  Schedule.findOne({date: submittedDate},function(err,foundDate){
-    if(err) {
-      console.log(err);
-    } else {
-      if(foundDate) {
-        res.render("scheduler/process", {foundDate: foundDate});
-      }
-    }
-  });
+  console.log(req.body.kind);
+  console.log(req.body.date);
+  console.log(req.body.hour);
 });
 
 app.get("/logout", function(req,res) {
@@ -223,7 +209,7 @@ app.post("/register", function(req,res){
   if(req.body.password.length > 0 && req.body.password.length < 6) {
     res.redirect('/register?error=' + encodeURIComponent('impossible-password'));
   } else {
-    User.register({username: req.body.username}, req.body.password, function(err, user) {
+    User.register({username: req.body.username, givenName: req.body.givenName, familyName: req.body.familyName}, req.body.password, function(err, user) {
       if(err) {
         console.log(err);
         res.redirect('/register?error=' + encodeURIComponent('incorrect-details'));
@@ -235,24 +221,6 @@ app.post("/register", function(req,res){
     });
   }
 });
-
-app.post('/login',
-  passport.authenticate('local', { failureRedirect: '/login?error=' + encodeURIComponent('incorrect-details') }),
-  function(req, res) {
-    res.redirect('/scheduler');
-  });
-
-// app.get("/scheduler/process/submit", function(req,res){
-//   if(req.isAuthenticated()){
-//     res.render("submit");
-//   } else {
-//     res.redirect("/login");
-//   }
-// });
-//
-// app.post("/scheduler/process/submit", function(req,res){
-//
-// });
 
 // Home page
 
@@ -266,6 +234,10 @@ app.get("/gallery", function(req,res) {
 
 app.get("/map", function(req,res) {
   res.render("map");
+});
+
+app.get("/about", function(req,res) {
+  res.render("about");
 });
 
 app.get("/contact", function(req,res) {

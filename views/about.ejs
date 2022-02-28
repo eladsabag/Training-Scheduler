@@ -1,0 +1,39 @@
+<%- include("partials/header") -%>
+
+<body>
+  <div class="middle-container">
+    TODO
+  </div>
+
+  <script>
+    $("#about").addClass("active");
+
+    $(document).ready(function() {
+      var win = $(window).width();
+      if (win < 1000) {
+        $(".content").hide();
+        $("nav").removeClass("justify-content-center");
+        $("nav").addClass("justify-content-end");
+      } else {
+        $(".content").show();
+        $("nav").removeClass("justify-content-end");
+        $("nav").addClass("justify-content-center");
+      }
+    });
+
+    $(window).on("resize", function() {
+      var win = $(window).width();
+      if (win < 1000) {
+        $(".content").hide();
+        $("nav").removeClass("justify-content-center");
+        $("nav").addClass("justify-content-end");
+      } else {
+        $(".content").show();
+        $("nav").removeClass("justify-content-end");
+        $("nav").addClass("justify-content-center");
+      }
+    });
+  </script>
+</body>
+
+<%- include("partials/footer") -%>

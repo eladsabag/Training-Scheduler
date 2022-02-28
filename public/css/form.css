@@ -22,11 +22,10 @@ h1 {
 
 a {
   padding: 5% 25%;
-  /* border: solid 1px; */
 }
 
-.kind {
-
+#reg:hover, #two:hover, #pil:hover {
+  border: solid 4px #112fff;
 }
 
 .container {
@@ -43,26 +42,37 @@ a {
   place-items: center;
 }
 
-/* .iForm {
-  width: auto;
-} */
+.iForm {
+  text-align: center;
+}
 
 .centered {
     padding-top: 150px;
     text-align: center;
 }
 
-.cont {
+.cont, .btn-google {
   text-align: right;
 }
 
-.btn-google {
-  text-align: right;
-}
-
-/* .training-text {
+.training-text {
   text-align: center;
-  font-size: 2rem;
-  color: #fff;
   background-color: #6610f2;
-} */
+  border-radius: 10%;
+  padding: inherit;
+  border: solid 1px #112fff;
+}
+
+.training-text:hover{
+  border: solid 4px #112fff;
+}
+
+.process-btn {
+  background-color: #6610f2;
+  border-color: #6610f2;
+}
+
+.process-btn:hover {
+  background-color: #6610e0;
+  border-color: #112fff;
+}
