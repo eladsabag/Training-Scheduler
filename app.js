@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema ({
   email: String,
   password: String,
   googleId: String,
-  trainings: [scheduleSchema]
+  trainings: Array
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -83,8 +83,7 @@ passport.use(new GoogleStrategy({
     callbackURL: "http://localhost:3000/auth/google/scheduler",
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
   },
-  function(accessToken, refreshToken, profile, cb) {
-    console.log(profile);
+  function(accessToken, emailAddresses,refreshToken, profile, cb) {
     User.findOrCreate({ googleId: profile.id, givenName: profile.name.givenName, familyName: profile.name.familyName }, function (err, user) {
       return cb(err, user);
     });
@@ -195,9 +194,21 @@ app.get("/scheduler/process", function(req,res){
 });
 
 app.post("/scheduler/process",function(req,res){
-  console.log(req.body.kind);
-  console.log(req.body.date);
-  console.log(req.body.hour);
+  var training = {
+    kind: req.body.kind,
+    hour: req.body.hour,
+    day: new Date(req.body.date).getDay(),
+    date: req.body.date
+  };
+  console.log(req.user.id);
+  User.findByIdAndUpdate(req.user.id,{$push:{trainings: training}},{new:true},function(err,foundUser){
+    if(!err) {
+      // Need to update the hour to occupied
+      res.redirect("/scheduler");
+    }
+  });
+
+
 });
 
 app.get("/logout", function(req,res) {

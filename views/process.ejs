@@ -54,13 +54,12 @@
 
     <section id="stage2" class="parent" style="padding-bottom: 25px; background-color: #fff; padding-right: 50px; padding-left: 50px; background-image: -webkit-linear-gradient(65deg, #EFEFEF 50%, #f8f9fa 50%);">
       <h3 class="pt-4 pb-2">בחר תאריך ושעה</h3>
-      <hr style="padding-bottom: 25px;">
       <form>
         <div class="row form-group">
           <div class="">
             <div class="input-group date" id="datepicker">
               <span class="input-group-append">
-                <input id="date" type="text" class="form-control iForm" autocomplete="off" value="" name="date">
+                <input id="date" type="text" class="form-control"  style="text-align: center" autocomplete="off" value="" name="date">
                 <span class="input-group-text bg-white">
                   <i class="fa fa-calendar"></i>
                 </span>
@@ -70,19 +69,33 @@
         </div>
       </form>
 
-      <div class="row">
+      <span id='variableJSON' hidden>
+        <%= JSON.stringify(foundSchedules); %>
+      </span>
+
+      <div id="availableHours" class="row">
         <% foundSchedules.forEach(function(foundSchedule) {%>
         <%if(foundSchedule.date===new Date().toLocaleDateString("en-GB")) {%>
         <%foundSchedule.hours.forEach(function(foundHour){%>
-        <div class="col-4">
-          <a class="btn training-text btn-lg" style="color: #fff" onclick="chooseHour('<%=foundHour.hour%>')"><%=foundHour.hour%></a>
-          <br><br>
-        </div>
+        <%if(!foundHour.occupied){%>
+          <div class="col-4">
+            <button class="btn training-text btn-lg" style="color: #fff" type="button" onclick="chooseHour('<%=foundHour.hour%>')"><%=foundHour.hour%></button>
+            <br><br>
+          </div>
+        <%} else {%>
+          <div class="col-4">
+            <button class="btn training-text btn-lg" style="color: #fff" type="button" disabled="true"><%=foundHour.hour%></button>
+            <br><br>
+          </div>
+        <%}%>
+
         <%});%>
         <%}%>
 
         <%});%>
+
         </div>
+        <p id="chosenHour" class=""></p>
         <input id="hour" type="hidden" name="hour" value="">
         <br>
         <p>
@@ -111,7 +124,7 @@
       </div>
       <br>
       <p>
-        <button class="btn process-btn btn-lg next3" style="color: #fff">אישור</button>
+        <button class="btn process-btn btn-lg next3" type="submit" style="color: #fff">אישור</button>
         <a class="btn btn-light btn-lg back3">חזור</a>
       </p>
       <br><br>
@@ -122,27 +135,62 @@
 
 
 <script>
+  const foundSchedules = JSON.parse($('#variableJSON').text());
+  $('#variableJSON').remove();
+
   $(document).ready(function() {
     $("#stage2").hide();
     $("#stage3").hide();
     $("#process").addClass("active");
     $(".next1").prop("disabled", true);
     $(".next2").prop("disabled", true);
+
+    $(function() {
+      $('#datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        startDate: '0d',
+        endDate: '+29d',
+        language: 'he'
+      });
+      $("#datepicker").on("change", function() {
+        $("#chosenHour").empty();
+        var selected = $("#date").val();
+        console.log(selected);
+        $("#availableHours").load(location.href + " #availableHours",function(){
+          $("#availableHours").empty();
+
+          foundSchedules.forEach(function(foundSchedule){
+            if(foundSchedule.date === selected) {
+              foundSchedule.hours.forEach(function(foundHour){
+                if(!foundHour.occupied) {
+                  $("#availableHours").append(
+                  "<div class='col-4'>" +
+                    "<button class='btn training-text btn-lg clickSet' type='button' style='color: #fff'>" + foundHour.hour + "</button><br /><br />"
+                  + "</div>"
+                  );
+                  $(".clickSet").click(() => {
+                    chooseHour(foundHour.hour);
+                  });
+                } else {
+                  $("#availableHours").append(
+                  "<div class='col-4'>" +
+                    "<button class='btn training-text btn-lg clickSet' type='button' style='color: #fff' disabled='true'>" + foundHour.hour + "</button><br /><br />"
+                  + "</div>"
+                  );
+                }
+
+              });
+            }
+          });
+
+
+        });
+      });
+      $("#date").attr("value", new Date().toLocaleDateString('en-GB'));
+    });
   });
 
-  $(function() {
-    $('#datepicker').datepicker({
-      format: 'dd/mm/yyyy',
-      startDate: '0d',
-      endDate: '+30d',
-      language: 'he'
-    });
-    $("#datepicker").on("change", function() {
-      var selected = $("input").val();
-      console.log(selected);
-    });
-    $(".iForm").attr("value", new Date().toLocaleDateString('en-GB'));
-  });
+
 
   $(".next1").click(function() {
     setTimeout(() => {
@@ -155,7 +203,6 @@
     setTimeout(() => {
       $("#stage2").hide();
       $("#stage3").show();
-      $(".next3").prop("disabled", true);
     }, 800);
   });
 
@@ -205,7 +252,7 @@
     if($(".next2").prop("disabled")) {
       $(".next2").prop("disabled", false);
     }
-    $("#hour").attr("value", "" + hour);
+    $("#hour").attr("value",hour);
   };
 
   function showDetails() {

@@ -23,9 +23,8 @@
     <hr>
     <div class="middle-container">
       <h1 class="display-6">האימונים שלי</h1>
-      <!-- לסדר בהתאם לשינויים בבסיס נתונים -->
-      <%if(!foundUser.$isEmpty('training')){%>
-      <p><%= foundUser.training %></p>
+      <%if(foundUser.trainings.length !== 0){%>
+      <p><%= foundUser.trainings %></p>
       <%} else { %>
       <img class="writing" src="/images/writing.png" alt="writing-png">
       <br><br>

@@ -42,10 +42,6 @@ a {
   place-items: center;
 }
 
-.iForm {
-  text-align: center;
-}
-
 .centered {
     padding-top: 150px;
     text-align: center;
@@ -61,10 +57,6 @@ a {
   border-radius: 10%;
   padding: inherit;
   border: solid 1px #112fff;
-}
-
-.training-text:hover{
-  border: solid 4px #112fff;
 }
 
 .process-btn {
