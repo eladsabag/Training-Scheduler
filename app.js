@@ -27,7 +27,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb://localhost:27017/osfitnessDB");
+mongoose.connect("mongodb+srv://eladsabag2:" + process.env.MONGO_PASSWORD + "@cluster0.hremd.mongodb.net/osfitnessDB?retryWrites=true&w=majority");
 
 const scheduleSchema = new mongoose.Schema ({
   date: String,
@@ -54,17 +54,7 @@ userSchema.plugin(findOrCreate);
 const Schedule = new mongoose.model("Schedule", scheduleSchema);
 const User = new mongoose.model("User", userSchema);
 
-// Set initial 30 dates
-// const dates = date.setInitialDates(30,0);
-// for(var i = 0 ; i < 30; i++) {
-//   const schedule =  new Schedule({
-//     date: dates.dates[i],
-//     day: dates.days[i],
-//     hours: dates.hours[i]
-//   });
-//   schedule.save();
-//
-// }
+
 
 passport.use(User.createStrategy());
 
@@ -91,6 +81,17 @@ passport.use(new GoogleStrategy({
 ));
 
 app.get("/", function(req,res) {
+  // Set initial 30 dates
+  // const dates = date.setInitialDates(30,0);
+  // for(var i = 0 ; i < 30; i++) {
+  //   const schedule =  new Schedule({
+  //     date: dates.dates[i],
+  //     day: dates.days[i],
+  //     hours: dates.hours[i]
+  //   });
+  //   schedule.save();
+  //
+  // }
   res.render("home");
 });
 
@@ -138,10 +139,10 @@ app.get("/scheduler", function(req,res){
       console.log(err);
     } else {
       if(foundDates) {
-        foundDates.forEach(function(foundDate){
+        foundDates.sort().forEach(function(foundDate){
           if(foundDate.date !== date.getDate() && isChecked === false) {
             // if there is no match then delete
-            Schedule.findOneAndDelete({},function(err){
+            Schedule.findByIdAndDelete(foundDate.id,function(err){
               if(!err) {
                 console.log("Successfully deleted old date");
               }
@@ -183,7 +184,7 @@ app.get("/scheduler/process", function(req,res){
   if(req.user) {
     Schedule.find({},function(err,foundSchedules) {
       if(!err) {
-        res.render("process",{foundSchedules: foundSchedules});
+        res.render("process",{foundSchedules: foundSchedules.sort()});
       } else {
         res.redirect("/scheduler");
       }
@@ -200,7 +201,6 @@ app.post("/scheduler/process",function(req,res){
     day: new Date(req.body.date).getDay(),
     date: req.body.date
   };
-  console.log(req.user.id);
   User.findByIdAndUpdate(req.user.id,{$push:{trainings: training}},{new:true},function(err,foundUser){
     if(!err) {
       // Need to update the hour to occupied
