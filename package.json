@@ -4,12 +4,12 @@
   "description": "An application to manage costumers trainings and show details about the gym bussiness.",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Elad Sabag",
   "license": "ISC",
   "engines": {
-    "node": "16.14.0"
+    "node": "16.13.1"
   },
   "dependencies": {
     "body-parser": "^1.19.1",
