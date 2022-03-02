@@ -27,7 +27,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb+srv://eladsabag2:" + process.env.MONGO_PASSWORD + "@cluster0.hremd.mongodb.net/osfitnessDB?retryWrites=true&w=majority");
+mongoose.connect("mongodb+srv://eladsabag2:" + process.env.MONGO_PASSWORD + "@cluster0.hremd.mongodb.net/osfitnessDB");
 
 const scheduleSchema = new mongoose.Schema ({
   date: String,
