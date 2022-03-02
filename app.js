@@ -27,7 +27,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb+srv://eladsabag2:" + process.env.MONGO_PASSWORD + "@cluster0.hremd.mongodb.net/osfitnessDB");
+mongoose.connect("mongodb+srv://eladsabag2:" + process.env.MONGO_PASSWORD + "@cluster0.hremd.mongodb.net/osfitnessDB?retryWrites=true&w=majority");
 
 const scheduleSchema = new mongoose.Schema ({
   date: String,
@@ -255,6 +255,6 @@ app.get("/contact", function(req,res) {
   res.render("contact");
 });
 
-app.listen(process.env.PORT || 3000 , function() {
-  console.log("Server started successfully.");
+app.listen(3000, function() {
+  console.log("Server started on port 3000.");
 });

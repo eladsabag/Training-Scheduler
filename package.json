@@ -2,7 +2,7 @@
   "name": "training-scheduler",
   "version": "1.0.0",
   "description": "An application to manage costumers trainings and show details about the gym bussiness.",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
