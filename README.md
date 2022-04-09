@@ -8,11 +8,11 @@ The main page is all about him and his bussiness information:
 
 You can scroll down in order to read more:
 
-![2022-04-09 (5)](https://user-images.githubusercontent.com/68230346/162564710-0a3ead31-bf92-47e7-ae51-4d0e748f1bee.png)
+![2022-04-09 (7)](https://user-images.githubusercontent.com/68230346/162564732-903fd436-6e21-45b3-8d4e-f959fe3ce0bf.png)
 
 There is a navigation bar to many sections, such as a map to the bussiness adress:
 
-![2022-04-09 (7)](https://user-images.githubusercontent.com/68230346/162564732-903fd436-6e21-45b3-8d4e-f959fe3ce0bf.png)
+![2022-04-09 (5)](https://user-images.githubusercontent.com/68230346/162564710-0a3ead31-bf92-47e7-ae51-4d0e748f1bee.png)
 
 And then you can click the Book a Training Button that will direct you to a login page:
 
